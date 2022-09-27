@@ -11,10 +11,11 @@ const loadInitialPage = (projectList) => {
     //header content
     const headerTitle = document.createElement('h1')
     headerTitle.textContent = "Todo List"
+    headerTitle.classList.add('header-title')
     header.appendChild(headerTitle)
     //sidebar contents
-    const projectsHeading = document.createElement('h3')
-    projectsHeading.textContent = 'Projects'
+    const projectsHeading = document.createElement('h2')
+    projectsHeading.textContent = 'Projects:'
     projectsHeading.classList.add('projects-heading')
     sideBar.appendChild(projectsHeading)
 
@@ -32,11 +33,16 @@ const loadInitialPage = (projectList) => {
 
     //create all buttons for projects
     for(let i = 0; i<projectList.length; i++){
-        var projectButton = document.createElement('button')
+        let projectButton = document.createElement('button')
         projectButton.classList.add('project-button')
         projectButton.textContent = projectList[i].getTitle()
         projectButton.id = projectList[i]
         projectButton.addEventListener('click', () =>{
+            const buttons = document.querySelectorAll(".project-button");
+            buttons.forEach((button) => {
+                button.classList.remove('selected');
+              });
+            projectButton.classList.add('selected');
             deleteProjectContent();
             loadProjectContent(projectList[i]);
         })

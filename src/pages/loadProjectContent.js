@@ -17,6 +17,9 @@ const loadProjectContent = (project) => {
         const taskTitle = document.createElement('p')
         taskTitle.textContent = title
         taskContainer.appendChild(taskTitle)
+        const taskDesc = document.createElement('p')
+        taskDesc.textContent = description
+        taskContainer.appendChild(taskDesc)
 
         if (complete) {
             const picture = new Image();
