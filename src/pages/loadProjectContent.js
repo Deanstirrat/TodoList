@@ -4,59 +4,58 @@ import { updateLocalStorage, updateLocalStorageTask } from '../functions/updateL
 import { deleteProjectContent } from '../functions/deleteProjectContent';
 
 const loadProjectContent = (project) => {
-    const projectContent = document.getElementById('projectContent')
-    const tasks = project.getTasks();
-    //add all tasks
-    for (let task of tasks) {
-        const title = task.getTitle();
-        const description = task.getDescription();
-        const complete = task.getIsComplete();
+  const projectContent = document.getElementById('projectContent');
+  const tasks = project.getTasks();
+  // add all tasks
+  for (const task of tasks) {
+    const title = task.getTitle();
+    const description = task.getDescription();
+    const complete = task.getIsComplete();
 
-        const taskContainer = document.createElement('div')
-        taskContainer.classList.add('task-container')
-        const taskTitle = document.createElement('p')
-        taskTitle.textContent = title
-        taskContainer.appendChild(taskTitle)
-        const taskDesc = document.createElement('p')
-        taskDesc.textContent = description
-        taskContainer.appendChild(taskDesc)
+    const taskContainer = document.createElement('div');
+    taskContainer.classList.add('task-container');
+    const taskTitle = document.createElement('p');
+    taskTitle.textContent = title;
+    taskContainer.appendChild(taskTitle);
+    const taskDesc = document.createElement('p');
+    taskDesc.textContent = description;
+    taskContainer.appendChild(taskDesc);
 
-        if (complete) {
-            const picture = new Image();
-            picture.classList.add('check-icon')
-            picture.src = Tick;
-            taskContainer.appendChild(picture);
-            taskContainer.classList.add('complete')
-        }else{
-            taskContainer.classList.add('incomplete')
-            const checkBox = document.createElement('input')
-            checkBox.type = 'checkbox';
-            checkBox.name = taskTitle;
-            checkBox.addEventListener('change', ()=>{
-                project.setTasks(project.getTasks().filter( function(el) { return el.title != task.title; } ));
-                project.tasks = project.tasks.filter( function(el) { return el.title != task.title; } )
-                updateLocalStorageTask(project);
-                deleteProjectContent();
-                loadProjectContent(project);
-            })
-            taskContainer.appendChild(checkBox)
-        }
-        projectContent.appendChild(taskContainer)
+    if (complete) {
+      const picture = new Image();
+      picture.classList.add('check-icon');
+      picture.src = Tick;
+      taskContainer.appendChild(picture);
+      taskContainer.classList.add('complete');
+    } else {
+      taskContainer.classList.add('incomplete');
+      const checkBox = document.createElement('input');
+      checkBox.type = 'checkbox';
+      checkBox.name = taskTitle;
+      checkBox.addEventListener('change', () => {
+        project.setTasks(project.getTasks().filter((el) => el.title != task.title));
+        project.tasks = project.tasks.filter((el) => el.title != task.title);
+        updateLocalStorageTask(project);
+        deleteProjectContent();
+        loadProjectContent(project);
+      });
+      taskContainer.appendChild(checkBox);
     }
+    projectContent.appendChild(taskContainer);
+  }
 
-    //new task button
-    const newTaskButton = document.createElement('button');
-    newTaskButton.innerHTML = 'Add task'
-    newTaskButton.classList.add('new-task-button')
-    newTaskButton.id = 'newTaskButton'
-    newTaskButton.addEventListener('click', ()=>{
-        console.log('new Task')
-        const newTaskForm = createNewTask(project)
-        projectContent.appendChild(newTaskForm)
-        newTaskButton.classList.add('hidden')
-    })
-    projectContent.appendChild(newTaskButton)
-    
-}
+  // new task button
+  const newTaskButton = document.createElement('button');
+  newTaskButton.innerHTML = 'Add task';
+  newTaskButton.classList.add('new-task-button');
+  newTaskButton.id = 'newTaskButton';
+  newTaskButton.addEventListener('click', () => {
+    console.log('new Task');
+    const newTaskForm = createNewTask(project);
+    projectContent.appendChild(newTaskForm);
+    newTaskButton.classList.add('hidden');
+  });
+  projectContent.appendChild(newTaskButton);
+};
 
-export { loadProjectContent }
+export { loadProjectContent };
